@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% block title %}Modulo de Reportes{% endblock %}
+{% block head %}
+    {{ super() }}
+    <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-pie.min.js"></script>
+{% endblock %}
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        
+        <div class="row mt-5 text-white">
+            <div class="col-sm-12">
+                <div class="row bg-green">
+                    <h1 class="text-white">Seccion de reportes</h1>
+                </div>
+                <form class="row bg-green my-3 pb-3" method="POST" action="{{ url_for('admin_reports') }}">
+                    <div class="col-sm-2">
+                        <label for="" class="col-form-label">Desde</label>
+                        <input type="date" class="w-100 form-control" name="from_date" value="{{from_date}}" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="" class="col-form-label">Hasta</label>
+                        <input type="date" class="w-100 form-control" name="to_date" value="{{to_date}}" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="" class="col-form-label">Estado</label>
+                        <select class="form-select" name="status">
+                            <option {% if status == "" %}selected {% endif %}>No aplicar</option>
+                            <option value="completado" {% if status == "completado" %} selected {% endif %}>completado</option>
+                            <option value="pendiente" {% if status == "pendiente" %} selected {% endif %}>pendiente</option>
+                            <option value="cancelado" {% if status == "cancelado" %} selected {% endif %}>cancelado</option>
+                            <option value="pendiente por confirmacion" {% if status == "pendiente por confirmacion" %} selected {% endif %}>pendiente por confirmacion</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="" class="col-form-label">Sede</label>
+                        <select class="form-select" name="sede">
+                            <option  {% if sede == "" %} selected {% endif %}>No aplicar</option>
+                            <option value="Cementerio" {% if sede == "Cementerio" %} selected {% endif %}>Cementerio</option>
+                            <option value="Municipal" {% if sede == "Municipal" %} selected {% endif %}>Municipal</option>
+                            <option value="Terminal de Omnibus" {% if sede == "Terminal de Omnibus" %} selected {% endif %}>Terminal de Omnibus</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="" class="col-form-label">Vacuna</label>
+                        <select class="form-select" name="vaccine">
+                            <option {% if vaccine == "" %} selected {% endif %}>No aplicar</option>
+                            <option value="Covid 19" {% if vaccine == "Covid 19" %} selected {% endif %}>Covid 19</option>
+                            <option value="Gripe" {% if vaccine == "Gripe" %} selected {% endif %}>Gripe</option>
+                            <option value="Fiebre Amarilla" {% if vaccine == "Fiebre Amarilla" %} selected {% endif %}>Fiebre Amarilla</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2 mt-2 pt-1">
+                        <label for="" class="col-form-label">  </label>
+                        <button class="btn btn-primary w-100" type="submit">Filtrar</button>
+                    </div>
+                </form>
+                {% if errors %}
+                    {% for error in errors %}
+                    <div class="alert alert-danger text-center mt-3" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-sm-12">
+                <div class="row mt-3">
+                    {% if not turns_filtered and ok %}
+    
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning text-center" role="alert">
+                                No hay turnos con ese filtro
+                            </div>
+                        </div>
+    
+                    {% elif turns_filtered and ok %}
+                        <div class="col-sm-12">
+                            <div class="row ">
+                                <div class="col-sm-12">
+                                    <h2>Cantidad de vacunas aplicadas Total = {{total_vaccines}}</h2>
+                                </div>
+                            </div>
+                            <div class="row text-white">
+                                <div class="col-sm-4 fs-4">
+                                    Covid 19 = {{vaccines_count['Covid 19']}}
+                                </div>
+                                <div class="col-sm-4 fs-4">
+                                    Gripe = {{vaccines_count['Gripe']}}
+                                </div>
+                                <div class="col-sm-4 fs-4">
+                                    Fiebre Amarilla = {{vaccines_count['Fiebre Amarilla']}}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pie-chart" class="my-4" style="width: 100%; height: 500px"></div>
+                        {% for turn_filtered in turns_filtered %}
+                            <!-- For desde aca con todos los turnos filtrados-->
+                            <div class="col-sm-4 mb-3 h-auto">
+                                <div class="card bg-dark">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Turno Numero: {{ turn_filtered.turn_id }}</h5>
+                                        <p class="card-text">
+                                            Vacuna: {{ turn_filtered.vaccine }}
+                                            <br/>
+                                            Sede: {{ turn_filtered.sede }}
+                                            <br/>
+                                            Fecha de Solicitud: {{ turn_filtered.created_at }}
+                                            <br/>
+                                            Fecha de Aplicacion: {{ turn_filtered.completed_at }}
+                                            <br/>
+                                            Estado: {{ turn_filtered.status }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin del for con todos los turnos filtrados -->
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        anychart.onDocumentReady(function() {
+
+            var status = "{{status}}" == "No aplicar" ? "Todas" : "{{status}}"
+            var sede = "{{sede}}" == "No aplicar" ? "Todas" : "{{sede}}"
+            var vaccine = "{{vaccine}}" == "No aplicar" ? "Todas" : "{{vaccine}}"
+
+            var title = `Reporte de vacunas con Estado: ${status}, Sede: ${sede}, Vacuna: ${vaccine}`
+            
+            var covid = parseInt("{{vaccines_count['Covid 19']}}")
+            var flu = parseInt("{{vaccines_count['Gripe']}}")
+            var yellow_fever = parseInt("{{vaccines_count['Fiebre Amarilla']}}")
+            
+
+            // set the data
+            var data = [
+                {x: "Covid 19", value: covid },
+                {x: "Fiebre Amarilla", value: yellow_fever },
+                {x: "Gripe", value: flu}
+            ];
+
+            // create the chart
+            var chart = anychart.pie();
+
+            // set the chart title
+            chart.title(title);
+
+            // add the data
+            chart.data(data);
+
+            // display the chart in the container
+            chart.container('pie-chart');
+            chart.draw();
+
+        });
+    </script>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

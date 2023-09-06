@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}Turnos Fiebre Amarilla{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container h-auto">
+    <div class="row bg-green text-white mt-5">
+        <h4 class="text-center">Turnos Pendientes Por Confirmar Fiebre Amarilla</h4>
+    </div>
+    <div class="row bg-green text-white">
+        <!-- For desde aca con todos los turnos pendientes -->
+        {% if success_register %}
+            <div class="alert alert-success text-center" role="alert">
+                {{ success_register }}
+            </div>
+        {% endif %}
+        {% if not pending_turns %}
+            <div class="col-sm-12">
+                <div class="alert alert-warning text-center" role="alert">
+                    No hay turnos pendientes por confirmar
+                </div>
+            </div>
+        {% else %}
+            {% for pending_turn in pending_turns %}
+                <div class="col-sm-4 mb-3">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">Turno Numero: {{ pending_turn.turn_id }}</h5>
+                            <p class="card-text">
+                                Vacuna: {{ pending_turn.vaccine }}
+                                <br/>
+                                Sede: {{ pending_turn.sede }}
+                                <br/>
+                                Fecha de Solicitud: {{ pending_turn.created_at }}
+                                <br/>
+                                Fecha de Aplicacion: {{ pending_turn.completed_at }}
+                                <br/>
+                                Estado: {{ pending_turn.status }}
+                            </p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="{{ url_for('admin_cancel_turn', turn_id=pending_turn.turn_id)}}" class="btn btn-danger w-100 me-md-3 mb-3" onclick="return confirm('Estas seguro de que quieres cancelar este turno?')">Cancelar Turno</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="{{ url_for('patient_details', patient_id=pending_turn.user_id)}}" class="btn btn-primary w-100 me-md-3 mb-3">Ver Paciente</a>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a class="btn btn-success w-100" href="{{url_for('admin_confirm_turn', turn_id=pending_turn.turn_id)}}">Confirmar turno</a>  
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Fin del for con todos los turnos pendientes -->
+    </div>   
+
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

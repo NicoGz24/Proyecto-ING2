@@ -1,0 +1,60 @@
+<div class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename = 'img/logo.png') }}" alt="logo-vaccunassist" class="icon"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if session.user_role == "admin" %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('nurses_management')}}">Modulo Enfermeros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('admin_reports')}}">Reportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('admin_yellow_fever_turns')}}">Turnos Fiebre Amarilla</a>
+                    </li>
+                {% endif %} 
+                {% if session.user_role == "common" %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('common_user', success='normal')}}">Modulo Usuario</a>
+                    </li>
+                {% endif %} 
+                {% if session.user_role == "nurse" %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('nurse_user')}}">Modulo Enfermero</a>
+                    </li>
+                {% endif %}
+            </ul>
+            
+        </div>
+        <div class="row me-2 w-auto">
+            <div class="col-sm-12">
+                <ul class="navbar-nav">
+                    {% if not is_authenticated(session) %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ url_for('login') }}">Iniciar Sesion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ url_for('user_register') }}">Registrarse</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{url_for('user_profile')}}">Ver Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{url_for('user_profile')}}">{{session.user_first_name}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white"  href="{{ url_for('logout') }}">Cerrar Sesion</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+</div>

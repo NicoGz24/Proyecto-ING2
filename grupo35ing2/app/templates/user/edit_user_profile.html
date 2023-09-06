@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 style="color:aliceblue" class="pt-5"> Mi Perfil</h1>
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Estimado Usuario</h4>
+            <p> Para que los cambios se reflejen, una vez realizados, debera seleccionar "Guardar". En caso de problemas comunicarse con el administrador de la plataforma via correo electronico a usuarios@vacunassist.com. </p>
+
+        </div>
+        <br>
+        <br>
+        <h6 style="color:aliceblue">Datos de mi perfil</h6>
+        <form action="{{ url_for('edit_user_profile') }}" method="POST" class="col-sm-12 h-auto">
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Nombre</h7>
+                    <input class="form-control" name="first_name" type="text" value={{user.first_name}} aria-label="Disabled input example" required >
+                </div>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Apellido</h7>
+                    <input class="form-control"  name="last_name" type="text" value={{user.last_name}} aria-label="Disabled input example" required >
+                </div>
+            </div>
+            <br>
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Email</h7>
+                    <input class="form-control" name="email" type="email" value={{user.email}} aria-label="input example" required>
+                </div>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">DNI</h7>
+                    <input class="form-control" name = "dni" type="text" value={{user.dni}} aria-label="input example" required >
+                </div>
+            </div>
+            <br>
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Fecha de Nacimiento</h7>
+                    <input class="form-control" placeholder="(DD/MM/YYYY)" name="day_of_birth" type="text" value={{user.day_of_birth}} aria-label="input example" required >
+                </div>
+                <div class="col-md-1">
+                    <h7 style="color:aliceblue">Edad</h7>
+                    <input class="form-control" type="text" value={{edad.years}} aria-label="Disabled input example" disabled readonly >
+                </div> 
+            </div>
+            <br>
+            <br>
+            {% if errors %}
+                {% for error in errors %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if success_edit_profile %}
+                <div class="alert alert-success text-center" role="alert">
+                    {{ success_edit_profile }}
+                </div>
+            {% endif %}
+            <button  class="btn btn-outline-secondary-success me-md-4" style="border: groove">Guardar cambios</button>
+            <a class="btn btn-outline-secondary me-md-4"  href="{{url_for('user_profile')}}" style="border: groove">Volver a Mi Perfil</a>
+        </form>
+        <br>
+        <br>
+    </div>
+{% endblock %}
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

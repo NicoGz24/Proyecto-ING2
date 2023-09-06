@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+{% block title %}Registro{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container h-auto">
+    <div class="row bg-green py-3 my-4 text-white h-auto">
+        <div class="col-sm-8">
+            <h2>Bienvenido al Modulo de Usuario {{session.user_first_name}}</h2>
+        </div>
+        <div class="col-sm-4 py-2">
+            <a href="#" class="btn btn-success text-white w-100 fs-5" data-bs-toggle="modal" data-bs-target="#exampleModal">Solicitar Turno</a>
+        </div>
+        {% if errors %}
+            {% for error in errors %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if success_register %}
+            <div class="alert alert-success text-center" role="alert">
+                {{ success_register }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="row text-white h-auto mb-4">
+        <div class="col-sm-6 ">
+            <div class="row bg-green me-2">
+                <h4 class="text-center">Turnos Pendientes</h4>
+            </div>
+            <div class="row h-auto me-2  bg-green">
+                <!-- For desde aca con todos los turnos pendientes -->
+                {% if not pending_turns %}
+
+                <div class="col-sm-12">
+                    <div class="alert alert-warning text-center" role="alert">
+                        No hay turnos pendientes
+                    </div>
+                </div>
+
+                {% else %}
+                
+                    {% for pending_turn in pending_turns %}
+                        <div class="col-sm-6 mb-3 h-auto">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <h5 class="card-title">Turno Numero: {{ pending_turn.turn_id }}</h5>
+                                    <p class="card-text">
+                                        Vacuna: {{ pending_turn.vaccine }}
+                                        <br/>
+                                        Sede: {{ pending_turn.sede }}
+                                        <br/>
+                                        Fecha de Solicitud: {{ pending_turn.created_at }}
+                                        <br/>
+                                        Fecha de Aplicacion: {{ pending_turn.completed_at }}
+                                        <br/>
+                                        Estado: {{ pending_turn.status }}
+                                    </p>
+                                    <a href="{{ url_for('cancel_turn', turn_id=pending_turn.turn_id)}}" class="btn btn-danger w-100" onclick="return confirm('Estas seguro de que quieres cancelar este turno?')">Cancelar Turno</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <!-- Fin del for con todos los turnos pendientes -->
+            </div>
+        </div>
+        <div class="col-sm-6 bg-green">
+            <div class="row">
+                <h4 class="text-center">Turnos Completados</h4>
+            </div>
+            <div class="row">
+                {% if not completed_turns %}
+
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center" role="alert">
+                            No hay turnos completados
+                        </div>
+                    </div>
+
+                {% else %}
+                    {% for completed_turn in completed_turns %}
+                        <!-- For desde aca con todos los turnos completados -->
+                        <div class="col-sm-6 mb-3">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <h5 class="card-title">Turno Numero: {{completed_turn.turn_id}}</h5>
+                                    <p class="card-text">
+                                        Vacuna: {{completed_turn.vaccine}}
+                                        <br/>
+                                        Sede: {{completed_turn.sede}}
+                                        <br/>
+                                        Laboratorio: {{completed_turn.laboratory}}
+                                        <br/>
+                                        Lote: {{completed_turn.lot}}
+                                        <br/>
+                                        Fecha de Solicitud: {{ completed_turn.created_at }}
+                                        <br/>
+                                        Fecha de Aplicacion: {{completed_turn.completed_at}}
+                                        <br/>
+                                        Estado: {{completed_turn.status}}
+                                        <br/>
+                                        Observaciones: 
+                                        {% if completed_turn.observations %} 
+                                            {{completed_turn.observations}}
+                                        {% endif %}
+                                    </p>
+                                    <a href="{{ url_for('download_certificate_turn', turn_id=completed_turn.turn_id)}}" class="btn btn-primary w-100">Descargar Certificado</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin del for con todos los turnos completados -->
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-12 bg-green mt-3">
+            <div class="row">
+                <h4 class="text-center">Turnos Pendientes Por Confirmacion</h4>
+            </div>
+            <div class="row">
+                {% if not pending_for_confirmation_turns %}
+
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center" role="alert">
+                            No hay turnos pendientes por confirmacion
+                        </div>
+                    </div>
+
+                {% else %}
+                    {% for pending_for_confirmation_turn in pending_for_confirmation_turns %}
+                        <!-- For desde aca con todos los turnos pendientes por confirmar -->
+                        <div class="col-sm-4 mb-3 h-auto">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <h5 class="card-title">Turno Numero: {{ pending_for_confirmation_turn.turn_id }}</h5>
+                                    <p class="card-text">
+                                        Vacuna: {{ pending_for_confirmation_turn.vaccine }}
+                                        <br/>
+                                        Sede: {{ pending_for_confirmation_turn.sede }}
+                                        <br/>
+                                        Fecha de Solicitud: {{ pending_for_confirmation_turn.created_at }}
+                                        <br/>
+                                        Fecha de Aplicacion: {{ pending_for_confirmation_turn.completed_at }}
+                                        <br/>
+                                        Estado: {{ pending_for_confirmation_turn.status }}
+                                    </p>
+                                    <a href="{{ url_for('cancel_turn', turn_id=pending_for_confirmation_turn.turn_id)}}" class="btn btn-danger w-100" onclick="return confirm('Estas seguro de que quieres cancelar este turno?')">Cancelar Turno</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin del for con todos los turnos pendientes por confirmar -->
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" action="{{ url_for('add_turn')}}" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva Solicitud de Turno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if session.covid < 2 or session.flu < 1 or session.yellow_fever < 1 %}
+                        <label for="" class="form-label">Seleccione la vacuna que se desea aplicar</label>
+                    
+                        <select class="form-select" name="vaccine">
+                            {% if session.covid < 2 %}
+                                <option value="Covid 19">Covid 19</option>
+                            {% endif %}
+                            {% if session.flu != 1 %}
+                                <option value="Gripe">Gripe</option>
+                            {% endif %}
+                            {% if session.yellow_fever != 1 and session.risk_factor != 1 and session.age < 60 %}
+                                <option value="Fiebre Amarilla">Fiebre Amarilla</option>
+                            {% endif %}
+                        </select>
+                    {% else %}    
+                        <div class="alert alert-warning text-center" role="alert">
+                            Usted ya cuenta con todas las vacunas disponibles en el sistema
+                        </div>
+                    {% endif %} 
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                        {% if session.covid < 2 or session.flu < 1 or session.yellow_fever < 1 %}
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-success w-100">Confirmar</button>
+                            </div>
+                        {% endif %} 
+                    </div>
+                    
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

@@ -1,0 +1,18 @@
+Nicolas:
+    1) Historia Asignar sede a Usuarios Enfermeros -> "Cambiar a Editar Enfermero" desde el administrador y poder editar todo es decir email dni contrasena todo
+        Nota(1): Agregar los escenarios pertinentes y las validaciones copia y pega las que ya estan hechas 
+        Nota(1.1): Recuerda tener el input para la sede (recomendacion que sea un select option de bootstrap parecido al que hice en el seleccionar vacuna al pedir turno guiate de ese)
+    2) Hacer el eliminar enfermero desde el boton de la tabla de enfermeros (Ya tienes los id de cada enfermero en la lista que paso a la vista solo te faltaria mandarlo a traves del url_for a la funcion correspondiente para ejecutar el eliminar)
+        Nota(2): Verificar el ejemplo del cancelar turno desde el usuario comun te puede ser de referencia para hacer esto
+    3) Ver perfil del enfermero desde el boton Ver de la tabla de enfermeros desde el administrador (basicamente es lo mismo de ver perfil que ya hiciste perdo desde el boton del adm)
+    
+    4) Hacer el boton de recordatorio de turno -> Lo que se me ocurre es que al clickear el boton hagas un filtro de los turnos del dia o turnos del dia y 3 dias antes de la fecha del turno en si como recordatorio y luego segun ese filtrado enviar los N mails
+        Nota(4): Me lo imagino tipo asunto: Recordatorio turno para "vacuna x" "dia x" cuerpo: Hola "Paciente" Este email es para recordarle que su turno para la "vacuna x" es el "dia x"
+
+Felix:
+    1) Crear una HU con solicitar de turno fiebre amarilla con las reglas de negocio de factor de riesgo y mayor de 60 years
+    2) Eliminar la historia de Acceder Reporte de vacunas dadas por sede y agregar ese filtrado para un filtrado completo entre los demas reportes
+        Nota(2): Idea hacer dos input date con un select option (completados, cancelados, pendientes), select option (por sede terminal, cementerio ....) ese select puede ser opcional 
+        , select option (por vacuna Covid, Fiebre ....) ese select puede ser opcional y boton filtrar que devolvera un listado con cards segun el filtro aplicado
+    3 READY) Eliminar la opcion de fiebre amarilla de las posibilidades si es mayor de 60 anos o es factor de riesgo 
+    4 READY) Agregar un listado de los turnos en estado pendiente-por-confirmacion (solo sera para los de fiebre amarilla)

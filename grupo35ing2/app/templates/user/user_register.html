@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block title %}Registro{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center">
+        <div class="row d-flex align-items-center text-white h-auto w-50">
+            <form action="{{ url_for('user_register') }}" method="POST" class="col-sm-12 bg-green h-auto border border-4 border-light my-5">
+                <div class="row my-3">
+                    <h2 class="text-white text-center">Registro</h2>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-6">
+                        <input type="text"  class="form-control text-white bg-dark" name="first_name" placeholder="Nombre" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text"  class="form-control text-white bg-dark" name="last_name" placeholder="Apellido" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-12">
+                        <input type="email"  class="form-control text-white bg-dark" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-12">
+                        <input type="text"  class="form-control text-white bg-dark" name="dni" placeholder="DNI" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-12">
+                        <input type="text"  class="form-control text-white bg-dark" name="day_of_birth" placeholder="Fecha de Nacimiento (DD/MM/YYYY)"  required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-12">
+                        <input type="password"  class="form-control text-white bg-dark" name="password" placeholder="Contraseña" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-sm-12">
+                        <input type="password"  class="form-control text-white bg-dark" name="confirm_password" placeholder="Confirmar Contraseña" required>
+                    </div>
+                </div>
+
+                {% if errors %}
+                    {% for error in errors %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if success_register %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ success_register }}
+                    </div>
+                {% endif %}
+
+                <div class="row">
+                    <h5 class="text-white text-center">Marque si es factor de riesgo</h5>
+                </div>
+
+                <div class="row mx-4">
+                    <div class="col-sm-12 form-check">
+                        <input class="form-check-input" type="checkbox" id="risk_factor" name="risk_factor">
+                        <label class="form-check-label" for="risk_factor">
+                            Factor de Riesgo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <h5 class="text-white text-center">Marque sus vacunas aplicadas</h5>
+                </div>              
+                <div class="row mx-4">
+                    <div class="col-sm-6 form-check">
+                        <input class="form-check-input" type="checkbox" id="covid_first" name="covid_first">
+                        <label class="form-check-label" for="covid_first">
+                            Covid Primera
+                        </label>
+                    </div>
+                    <div class="col-sm-6 form-check">
+                        <input class="form-check-input" type="checkbox" id="covid_second" name="covid_second">
+                        <label class="form-check-label" for="covid_second">
+                            Covid Segunda
+                        </label>
+                    </div>
+                    <div class="col-sm-6 form-check">
+                        <input class="form-check-input" type="checkbox" id="yellow_fever" name="yellow_fever">
+                        <label class="form-check-label" for="yellow_fever">
+                            Fiebre Amarilla
+                        </label>
+                    </div>
+                    <div class="col-sm-6 form-check">
+                        <input class="form-check-input" type="checkbox" id="flu" name="flu">
+                        <label class="form-check-label" for="flu">
+                            Gripe
+                        </label>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success w-100 fs-5" type="submit">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

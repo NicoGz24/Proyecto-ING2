@@ -1,0 +1,17 @@
+pip3 install pipenv ## Entorno virtual de python donde estaran todas las librerias cargadas
+
+git fetch /actualiza alos ultimos cambios de git para poder hacer pull
+git branch // te notifica en que branch estas ubicado
+git branch "nombre branch" // crea una branch con un nombre especifico
+git checkout "nombre branch" // reubicarte a la branch seleccionada
+git add . // agregar los cambios para posteriormente hacer un commit
+git commit -m "subida de nueva funcionalidad x" // salva los cambios para subir al repositorio remoto
+git push origin "nombre branch" // subir los cambios commiteados al repositorio remoto
+git pull origin "nombre branch" // descarga las ultimas actualizaciones de la branch subida al repositorio remoto
+
+pip freeze // muestra las librerias de python instaladas actualmente
+pipenv shell // activa la maquina virtual
+pipenv install "libreria"
+
+
+

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Inicio de Sesion{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="row d-flex align-items-center text-white vh-100 w-50">
+        <form action="{{ url_for('login') }}" method="POST" class="col-sm-12 bg-green h-75 border border-4 border-light">
+            <div class="row my-5 pt-3">
+                <h2 class="text-white text-center">Iniciar Sesion</h2>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-12">
+                    <input type="text"  class="form-control text-white bg-dark" name="dni" placeholder="DNI" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-12">
+                    <input type="password"  class="form-control text-white bg-dark" name="password" placeholder="Contraseña" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-12">
+                    <input type="text"  class="form-control text-white bg-dark" name="token" placeholder="Token">
+                </div>
+            </div>
+
+            {% if errors %}
+                {% for error in errors %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="row my-3">
+                <div class="col-sm-12">
+                    <button class="btn btn-success w-100 fs-5" type="submit">Ingresar</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

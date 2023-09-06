@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+  {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <a href=" {% if session.user_role == 'nurse' %}  {{ url_for('nurse_user') }} {% else %} {{ url_for('admin_yellow_fever_turns') }}   {% endif %} " class="btn btn-primary w-25 mb-3">Volver</a>
+        <h1 class="text-white">Detalles Paciente {{patient.first_name}} {{patient.last_name}}</h1>
+        <h3 class="text-white">Vacunas Aplicadas</h3>
+        <p class="text-white">
+            Primera Dosis Covid 19: {% if patient.covid >= 1 %} Si {% else %} No {% endif %} <br/>
+            Segunda Dosis Covid 19: {% if patient.covid >= 2 %} Si {% else %} No {% endif %} <br/>
+            Gripe: {% if patient.flu >= 1 %} Si {% else %} No {% endif %} <br/>
+            Fiebre Amarilla: {% if patient.yellow_fever >= 1 %} Si {% else %} No {% endif %} <br/>
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <h3 class="text-center text-white py-3">Turnos Completados</h3>
+            </div>
+            <div class="row">
+                {% if not completed_turns %}
+
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center" role="alert">
+                            No hay turnos completados
+                        </div>
+                    </div>
+
+                {% else %}
+                    {% for completed_turn in completed_turns %}
+                        <!-- For desde aca con todos los turnos completados -->
+                        <div class="col-sm-4 mb-3 text-white">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <h5 class="card-title">Turno Numero: {{completed_turn.turn_id}}</h5>
+                                    <p class="card-text">
+                                        Vacuna: {{completed_turn.vaccine}}
+                                        <br/>
+                                        Sede: {{completed_turn.sede}}
+                                        <br/>
+                                        Laboratorio: {{completed_turn.laboratory}}
+                                        <br/>
+                                        Lote: {{completed_turn.lot}}
+                                        <br/>
+                                        Fecha de Solicitud: {{ completed_turn.created_at }}
+                                        <br/>
+                                        Fecha de Aplicacion: {{completed_turn.completed_at}}
+                                        <br/>
+                                        Estado: {{completed_turn.status}}
+                                        <br/>
+                                        Observaciones: 
+                                        {% if completed_turn.observations %} 
+                                            {{completed_turn.observations}}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin del for con todos los turnos completados -->
+                        {% endfor %}
+                        
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

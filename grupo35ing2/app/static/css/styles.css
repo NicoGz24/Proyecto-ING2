@@ -1,0 +1,18 @@
+.icon{
+    width: 150px;
+    height: 70px;
+}
+
+.bg-green{
+    background-color: #A2CB83;
+}
+
+.bg-grey{
+    background-color: #B7B8B5;
+}
+
+
+body{
+    background-color: rgb(79, 83, 83);
+}
+

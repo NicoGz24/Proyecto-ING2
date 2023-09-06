@@ -1,0 +1,29 @@
+<html>
+    <body>
+        <h1>Certificado de Vacunacion</h1>
+        <p>
+            Paciente: {{user.first_name}} {{user.last_name}}
+            <br/>
+            Turno Numero: {{completed_turn.turn_id}}
+            <br/>
+            Vacuna: {{completed_turn.vaccine}}
+            <br/>
+            Sede: {{completed_turn.sede}}
+            <br/>
+            Laboratorio: {{completed_turn.laboratory}}
+            <br/>
+            Lote: {{completed_turn.lot}}
+            <br/>
+            Fecha de Solicitud: {{completed_turn.created_at}}
+            <br/>
+            Fecha de Aplicacion: {{completed_turn.completed_at}}
+            <br/>
+            Estado: {{completed_turn.status}}
+            <br/>
+            Observaciones: 
+            {% if completed_turn.observations %} 
+                {{completed_turn.observations}}
+            {% endif %}
+        </p>
+    </body>
+</html>

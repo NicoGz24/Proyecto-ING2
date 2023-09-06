@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+black = "==21.9b0"
+Flask = "==2.0.1"
+Flask-Session = "==0.4"
+Flask-SQLAlchemy = "==2.5.1"
+SQLAlchemy = "==1.4.25"
+SQLAlchemy-Utils = "==0.37.8"
+Jinja2 = "==3.0.1"
+mysqlclient = "*"
+pdfkit = "*"
+wkhtmltopdf = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

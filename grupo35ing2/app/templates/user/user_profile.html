@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+  {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 style="color:aliceblue" class="pt-5"> Mi Perfil</h1>
+        <br>
+        <br>
+        <h6 style="color:aliceblue">Datos de mi perfil</h6>
+        <div class="row align-items-start">
+            <div class="col-md-4">
+                <h7 style="color:aliceblue">Nombre</h7>
+                <input class="form-control" type="text" value={{user.first_name}} aria-label="Disabled input example" disabled readonly >
+            </div>
+            <div class="col-md-4">
+                <h7 style="color:aliceblue">Apellido</h7>
+                <input class="form-control" type="text" value={{user.last_name}} aria-label="Disabled input example" disabled readonly >
+            </div>
+        </div>
+        <br>
+        <div class="row align-items-start">
+            <div class="col-md-4">
+                <h7 style="color:aliceblue">Email</h7>
+                <input class="form-control" type="text" value={{user.email}} aria-label="Disabled input example" disabled readonly >
+            </div>
+            <div class="col-md-4">
+                <h7 style="color:aliceblue">DNI</h7>
+                <input class="form-control" type="text" value={{user.dni}} aria-label="Disabled input example" disabled readonly >
+            </div>
+        </div>
+        <br>
+        <div class="row align-items-start">
+            <div class="col-md-4">
+                <h7 style="color:aliceblue">Fecha de Nacimiento</h7>
+                <input class="form-control" type="text" value={{user.day_of_birth}} aria-label="Disabled input example" disabled readonly >
+            </div>
+            <div class="col-md-1">
+                <h7 style="color:aliceblue">Edad</h7>
+                <input class="form-control" type="text" value={{edad.years}} aria-label="Disabled input example" disabled readonly >
+            </div> 
+            {% if session.user_role == "common" %}
+                <div class="col-md-7 mt-4">
+                    <h4 class="text-white">Factor de Riesgo: {% if session.risk_factor >= 1 %} Si {% else %} No {% endif %}</h4>
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        <br>
+        <div class="row ps-3">
+            <a class="btn btn-outline-secondary me-md-3 mb-3 text-white w-25" href="{{url_for('edit_user_profile')}}">Editar Perfil</a>
+        </div>
+        <div class="row ps-3">
+            <a class="btn btn-outline-secondary me-md-3 mb-3 text-white w-25" href="{{ url_for('home')}}">Volver</a>
+        </div>
+        {% if session.user_role == 'nurse' %}
+            <div class="row ps-3">
+                <a class="btn btn-outline-secondary me-md-3 mb-3 text-white w-25" href="{{url_for('nurse_user')}}">Modulo Enfermero</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

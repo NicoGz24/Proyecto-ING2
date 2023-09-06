@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+  {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="container vh-100">
+    <h1 class="text-white">Bienvenido a VACUNASSIT</h1>
+    <p class="text-white">
+      Desde nuestra plataforma podrá solicitar un turno para poder vacunarse tanto para la Gripe, la Fiebre Amarilla como así también para el Covid19. 
+    </p>
+    <p class="text-white">
+      Además contamos con 3 sedes (Terminal de Ómnibus - Cementerio - Municipal) para una gestión mas organizada en nuestros turnos.
+    </p> 
+    <p class="text-white"> 
+      Para poder acceder a la plataforma será necesario que se registre en el sistema para lo cual deberá ingresar los datos solicitados. Los mismos tendrán carácter de declaración jurada. 
+      Una vez registrado podrá iniciar sesión para así, acceder a las funcionalidades de la plataforma de VACUNASSIT. 
+    </p>
+      <div id="carouselExampleSlidesOnly" class="carousel slide"  text-align="center" data-bs-ride="carousel" >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{{ url_for('static', filename = 'img/vacunacion.png') }}" class="d-block w-50" alt="1">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ url_for('static', filename = 'img/covid.jpeg') }}" class="d-block w-50" alt="2">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ url_for('static', filename = 'img/vacuna.jpg') }}" class="d-block w-50" alt="3">
+          </div>
+          <div class="carousel-item">
+            <img ssrc="{{ url_for('static', filename = 'img/antigripal.jpg') }}" class="d-block w-50" alt="4">
+          </div>
+        </div>
+      </div>
+  </div>
+  
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}
+

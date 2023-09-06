@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+  {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 style="color:aliceblue" class="pt-5"> Confirmar Turno</h1>
+        <br>
+        <br>
+        <h4 style="color:aliceblue">Datos del Turno</h6>
+        <form action="{{ url_for('confirm_turn', turn_id=turn.turn_id) }}" method="POST" class="col-sm-12 h-auto">
+            <div class="row align-items-start">
+                <h5 style="color:aliceblue">Paciente</h6>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Nombre</h7>
+                    <input class="form-control" type="text" value={{patient.first_name}} aria-label="Disabled input example" disabled readonly >
+                </div>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Apellido</h7>
+                    <input class="form-control" type="text" value={{patient.last_name}} aria-label="Disabled input example" disabled readonly >
+                </div>
+            </div>
+            <br>
+            <div class="row align-items-start">
+                <h5 style="color:aliceblue">Vacuna</h6>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Tipo</h7>
+                    <input class="form-control" type="text" value={{turn.vaccine}} aria-label="Disabled input example" disabled readonly >
+                </div>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Laboratorio</h7>
+                    <input class="form-control" name="laboratory" type="text" placeholder="Laboratorio" required value={{turn.laboratory}}  >
+                </div>
+            </div>
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Lote</h7>
+                    <input class="form-control" name="lot" type="text" placeholder="Lote" required value={{turn.lot}}  >
+                </div>
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Fecha de aplicacion</h7>
+                    <input class="form-control" type="text" placeholder="(DD/MM/YYYY)" value={{turn.completed_at}} aria-label="Disabled input example" disabled readonly >
+                </div>
+            </div>
+            <div class="row align-items-start">
+                <div class="col-md-4">
+                    <h7 style="color:aliceblue">Observaciones</h7>
+                    <input class="form-control" name="observations" type="text" placeholder="Observaciones" value={{turn.observations}}>
+                    
+                </div>
+            </div>
+            <br>
+            <br>
+            {% if errors %}
+                {% for error in errors %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if success_confirm_turn %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ success_confirm_turn }}
+                    </div>
+            {% endif %}
+            <div class="row ps-3 justify-content-start">
+                <button  class="btn btn-outline-secondary-success me-md-3 mb-3 text-white w-25" type="submit" style="border: groove">Confirmar Turno</button>
+                <a class="btn btn-outline-secondary me-md-3 mb-3 text-white w-25" href="{{url_for('nurse_user')}}">Volver a mis turnos</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

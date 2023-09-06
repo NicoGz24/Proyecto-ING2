@@ -1,0 +1,18 @@
+CREATE DATABASE IF NOT EXISTS grupo35;
+
+CREATE USER IF NOT EXISTS 'grupo35'@'localhost' IDENTIFIED BY 'grupo35';
+
+GRANT CREATE ON *.* TO 'grupo35'@'localhost';
+GRANT DROP ON *.* TO 'grupo35'@'localhost';
+GRANT DELETE ON *.* TO 'grupo35'@'localhost';
+GRANT INSERT ON *.* TO 'grupo35'@'localhost';
+GRANT SELECT ON *.* TO 'grupo35'@'localhost';
+GRANT UPDATE ON *.* TO 'grupo35'@'localhost';
+GRANT ALTER ON *.* TO 'grupo35'@'localhost';
+GRANT INDEX ON *.* TO 'grupo35'@'localhost';
+GRANT SELECT ON *.* TO 'grupo35'@'localhost';
+GRANT SHOW DATABASES ON *.* TO 'grupo35'@'localhost';
+GRANT SHOW VIEW ON *.* TO 'grupo35'@'localhost';
+GRANT REFERENCES ON *.* TO 'grupo35'@'localhost';
+
+FLUSH PRIVILEGES;

@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block title %}Registro{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container h-auto">
+    <div class="row bg-green py-3 my-4 text-white h-auto">
+        <div class="col-sm-12">
+            <h2>Bienvenido al Modulo de Enfermeros {{nurse.first_name}}</h2>
+        </div>
+        <div class="col-sm-12">
+            <h2>Sede: {{nurse.user_sede}}</h2>
+        </div>
+        {% if errors %}
+            {% for error in errors %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if success_register %}
+            <div class="alert alert-success text-center" role="alert">
+                {{ success_register }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row bg-green text-white">
+        <h4 class="text-center">Turnos Pendientes</h4>
+    </div>
+    <div class="row bg-green text-white">
+        <!-- For desde aca con todos los turnos pendientes -->
+        {% if not pending_turns %}
+            <div class="col-sm-12">
+                <div class="alert alert-warning text-center" role="alert">
+                    No hay turnos pendientes
+                </div>
+            </div>
+        {% else %}
+            {% for pending_turn in pending_turns %}
+                <div class="col-sm-4 mb-3">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">Turno Numero: {{ pending_turn.turn_id }}</h5>
+                            <p class="card-text">
+                                Vacuna: {{ pending_turn.vaccine }}
+                                <br/>
+                                Sede: {{ pending_turn.sede }}
+                                <br/>
+                                Fecha de Solicitud: {{ pending_turn.created_at }}
+                                <br/>
+                                Fecha de Aplicacion: {{ pending_turn.completed_at }}
+                                <br/>
+                                Estado: {{ pending_turn.status }}
+                            </p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="{{ url_for('nurse_cancel_turn', turn_id=pending_turn.turn_id)}}" class="btn btn-danger w-100 me-md-3 mb-3" onclick="return confirm('Estas seguro de que quieres cancelar este turno?')">Cancelar Turno</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="{{ url_for('patient_details', patient_id=pending_turn.user_id)}}" class="btn btn-primary w-100 me-md-3 mb-3">Ver Paciente</a>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a class="btn btn-success w-100" href="{{url_for('confirm_turn', turn_id=pending_turn.turn_id)}}">Confirmar asistencia</a>  
+                                </div> 
+                            </div>
+
+                    
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Fin del for con todos los turnos pendientes -->
+    </div>   
+
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "components/footer.html" %}
+{% endblock %}

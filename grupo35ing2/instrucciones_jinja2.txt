@@ -1,0 +1,15 @@
+##IF DE JINJA 2
+{% if Condicion %}
+{% endif %}
+
+##FOR DE JINJA2 
+{% for n in usuarios %}
+{% endfor %}
+
+##COMO MOSTRAR UNA VARIABLE JINJA 2
+{{ variable }}
+
+##BLOQUES JINJA 2
+{% block nombre_bloque %}
+    ## ACA IRIA TODO EL CODIGO HTML QUE QUERAMOS INYECTAR
+{% endblock %}
